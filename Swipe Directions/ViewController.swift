@@ -15,13 +15,15 @@ class ViewController: UIViewController {
 	var cells = [String: UIView]()
 	var cellview: UIView!
 	var textlabel: UILabel!
+	var swiped: UIPanGestureRecognizer!
+
 	
 	var noOfCells: Int = 5
 	var cellsize: Int = 50
 	var spacing: Int = 5
 	var i: Int = 0, j: Int = 0
 	
-	let swiped = UIPanGestureRecognizer(target: self, action: #selector(swipes(sender:)))
+//	let swiped = UIPanGestureRecognizer(target: self, action: #selector(swipes))
 	var firstLocation: CGPoint?
 	var secondLocation: CGPoint?
 	
@@ -56,6 +58,7 @@ class ViewController: UIViewController {
 			}
 		}
 		
+		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
 	func swipes(sender: UIPanGestureRecognizer) {
@@ -78,32 +81,28 @@ class ViewController: UIViewController {
 			
 		case .changed:
 			secondLocation = swiped.location(in: view)
-			
-			//			print("changed")
+			print("changed")
+
 			
 			let dx = (secondLocation?.x)! - (firstLocation?.x)!
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
 			distance = sqrt(dx*dx + dy*dy)
 			
-			//			print(distance)
-			
-			//			각도에 따라서 방향을 인식함
 			if distance < 50 {
-				
-				// cells[3|3]이 센터임
-				key = "3|3"
+
+				key = "2|2"
 				
 			} else if 50 < distance && distance < 150 {
 				
 				switch angle {
-				case 22.5 ..< 67.5: key = "4|4"
-				case 67.5 ..< 112.5: key = "4|4"
-				case 112.5 ..< 157.5: key = "4|4"
-				case 157.5 ..< 202.5: key = "4|4"
-				case 202.5 ..< 237.5: key = "4|4"
-				case 237.5 ..< 292.5: key = "4|4"
-				case 292.5 ..< 337.5: key = "4|4"
-				case 337.5 ..< 360, 0 ..< 22.5: key = "4|4"
+				case 22.5 ..< 67.5: key = "3|1"
+				case 67.5 ..< 112.5: key = "3|2"
+				case 112.5 ..< 157.5: key = "3|3"
+				case 157.5 ..< 202.5: key = "2|3"
+				case 202.5 ..< 237.5: key = "1|3"
+				case 237.5 ..< 292.5: key = "1|2"
+				case 292.5 ..< 337.5: key = "1|1"
+				case 337.5 ..< 360, 0 ..< 22.5: key = "3|1"
 				default: break
 				}
 			}  else {
@@ -112,7 +111,7 @@ class ViewController: UIViewController {
 			
 			
 		case .ended:
-			//			secondLocation = swiped.location(in: self)
+				secondLocation = swiped.location(in: view)
 			return
 			
 		default:
@@ -120,7 +119,7 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	fileprivate func randomColor() -> UIColor {
+	func randomColor() -> UIColor {
 		let red = CGFloat(drand48())
 		let green = CGFloat(drand48())
 		let blue = CGFloat(drand48())

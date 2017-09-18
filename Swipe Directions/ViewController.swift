@@ -15,24 +15,25 @@ class ViewController: UIViewController {
 	var cells = [String: UIView]()
 	var cellview: UIView!
 	var textlabel: UILabel!
-	var swiped: UIPanGestureRecognizer!
-
+	var zoomcell: UIView!
 	
 	var noOfCells: Int = 5
 	var cellsize: Int = 50
 	var spacing: Int = 5
-	var i: Int = 0, j: Int = 0
+	var i: Int = 0
+	var j: Int = 0
 	
 //	let swiped = UIPanGestureRecognizer(target: self, action: #selector(swipes))
 	var firstLocation: CGPoint?
 	var secondLocation: CGPoint?
+	
+	var key: String?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
 		let centering: Int = Int(view.frame.width)/2 - (noOfCells * cellsize + (spacing * 4))/2
-		print(centering, " in ", view.frame.width)
 		
 		for rows in 0...(noOfCells-1) {
 			for cols in 0...(noOfCells-1) {
@@ -61,9 +62,8 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
-	func swipes(sender: UIPanGestureRecognizer) {
+	func swipes(swiped: UIPanGestureRecognizer) {
 		
-		var key = "\(i)|\(j)"
 		
 		let dragged = swiped.translation(in: view)
 		
@@ -81,8 +81,6 @@ class ViewController: UIViewController {
 			
 		case .changed:
 			secondLocation = swiped.location(in: view)
-			print("changed")
-
 			
 			let dx = (secondLocation?.x)! - (firstLocation?.x)!
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
@@ -92,31 +90,69 @@ class ViewController: UIViewController {
 
 				key = "2|2"
 				
-			} else if 50 < distance && distance < 150 {
+			} else if 50 < distance && distance < 150, key == key {
 				
 				switch angle {
-				case 22.5 ..< 67.5: key = "3|1"
-				case 67.5 ..< 112.5: key = "3|2"
-				case 112.5 ..< 157.5: key = "3|3"
-				case 157.5 ..< 202.5: key = "2|3"
-				case 202.5 ..< 237.5: key = "1|3"
-				case 237.5 ..< 292.5: key = "1|2"
-				case 292.5 ..< 337.5: key = "1|1"
-				case 337.5 ..< 360, 0 ..< 22.5: key = "3|1"
+				case 22.5 ..< 67.5:
+					key = "3|3"
+					zoomedCell(key: key!)
+				case 67.5 ..< 112.5:
+					key = "2|3"
+					zoomedCell(key: key!)
+				case 112.5 ..< 157.5:
+					key = "1|3"
+					zoomedCell(key: key!)
+				case 157.5 ..< 202.5:
+					key = "1|2"
+					zoomedCell(key: key!)
+				case 202.5 ..< 237.5:
+					key = "1|1"
+					zoomedCell(key: key!)
+				case 237.5 ..< 292.5:
+					key = "2|1" // north
+					zoomedCell(key: key!)
+				case 292.5 ..< 337.5:
+					key = "3|1" // northeast
+					zoomedCell(key: key!)
+				case 337.5 ..< 360, 0 ..< 22.5:
+					key = "3|2"
+					zoomedCell(key: key!)
 				default: break
 				}
-			}  else {
-				return
+			}  else if key != key {
+				returnCell(key: key!)
 			}
+			
+			print(key!)
 			
 			
 		case .ended:
-				secondLocation = swiped.location(in: view)
+			zoomedCell(key: key!)
 			return
 			
 		default:
 			break
 		}
+	}
+	
+	func zoomedCell(key: String) -> UIView {
+		
+		zoomcell = cells[key]
+		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+			self.zoomcell?.layer.transform = CATransform3DIdentity
+			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.1, 1.1, 1.1)
+		}, completion: nil)
+		
+		return zoomcell
+	}
+	
+	func returnCell(key: String) -> UIView {
+		zoomcell = cells[key]
+		UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+			self.zoomcell?.layer.transform = CATransform3DIdentity
+		}, completion: { (_) in})
+		return zoomcell
+		
 	}
 	
 	func randomColor() -> UIColor {

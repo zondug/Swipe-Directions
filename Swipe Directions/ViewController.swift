@@ -42,10 +42,10 @@ class ViewController: UIViewController {
 	var _key: String = targetcell.center.rawValue
 	var key: String? {
 		get {
-			returnCell(key: _key)
 			return _key
 		}
 		set(newVal) {
+			returnCell(key: key!)
 			_key = newVal!
 			zoomedCell(key: _key)
 		}
@@ -96,6 +96,8 @@ class ViewController: UIViewController {
 		}
 		
 		var distance: CGFloat = 0.0
+		let defaultDistance: CGFloat = 20.0
+		let maximumDistance: CGFloat = 150
 		
 		switch swiped.state {
 		case .began:
@@ -108,11 +110,11 @@ class ViewController: UIViewController {
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
 			distance = sqrt(dx*dx + dy*dy)
 			
-			if distance < 50 {
+			if distance < defaultDistance {
 
 				key = targetcell.center.rawValue
 				
-			} else if 50 < distance && distance < 150 {
+			} else if defaultDistance < distance && distance < maximumDistance {
 
 				switch angle {
 				case 22.5 ..< 67.5:
@@ -139,7 +141,7 @@ class ViewController: UIViewController {
 			}
 
 //			cells[key!]?.backgroundColor = UIColor.black
-//			print(key!)
+//			print(distance, angle)
 			
 		case .ended:
 			return

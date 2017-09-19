@@ -20,10 +20,7 @@ class ViewController: UIViewController {
 	var noOfCells: Int = 5
 	var cellsize: Int = 50
 	var spacing: Int = 5
-	var i: Int = 0
-	var j: Int = 0
 	
-//	let swiped = UIPanGestureRecognizer(target: self, action: #selector(swipes))
 	var firstLocation: CGPoint?
 	var secondLocation: CGPoint?
 	
@@ -85,8 +82,7 @@ class ViewController: UIViewController {
 	}
 	
 	func swipes(swiped: UIPanGestureRecognizer) {
-		
-		
+
 		let dragged = swiped.translation(in: view)
 		
 		var angle =  Double(atan2f(Float(dragged.y), Float(dragged.x))) * (360 / (2 * Double.pi))
@@ -102,6 +98,7 @@ class ViewController: UIViewController {
 		switch swiped.state {
 		case .began:
 			firstLocation = swiped.location(in: view)
+			key = targetcell.center.rawValue
 			
 		case .changed:
 			secondLocation = swiped.location(in: view)
@@ -144,6 +141,7 @@ class ViewController: UIViewController {
 //			print(distance, angle)
 			
 		case .ended:
+//			excuteCellCard()
 			return
 			
 		default:
@@ -154,21 +152,24 @@ class ViewController: UIViewController {
 	func zoomedCell(key: String) -> UIView {
 		
 		zoomcell = cells[key]
+		
 		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
 			self.zoomcell?.layer.transform = CATransform3DIdentity
-			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.15, 1.15, 1.15)
+			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.2, 1.2, 1.2)
 		}, completion: nil)
 		
 		return zoomcell
 	}
 	
 	func returnCell(key: String) -> UIView {
+
 		zoomcell = cells[key]
+
 		UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
 			self.zoomcell?.layer.transform = CATransform3DIdentity
 		}, completion: { (_) in})
+
 		return zoomcell
-		
 	}
 	
 	func randomColor() -> UIColor {

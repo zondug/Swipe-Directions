@@ -49,8 +49,8 @@ class ViewController: UIViewController {
 				
 				cellView.addSubview(textlabel)
 				
-				cellView.layer.borderWidth = 1
-				cellView.layer.borderColor = UIColor.black.cgColor
+				cellView.layer.borderWidth = 2
+				cellView.layer.borderColor = UIColor.gray.cgColor
 				cellView.bringSubview(toFront: textlabel)
 				view.addSubview(cellView)
 				
@@ -88,10 +88,10 @@ class ViewController: UIViewController {
 			
 			if distance < 50 {
 
-				key = "2|2"
+				key = "2|2" // center
 				
-			} else if 50 < distance && distance < 150, key == key {
-				
+			} else if 50 < distance && distance < 150 {
+
 				switch angle {
 				case 22.5 ..< 67.5:
 					key = "3|3"
@@ -119,10 +119,12 @@ class ViewController: UIViewController {
 					zoomedCell(key: key!)
 				default: break
 				}
-			}  else if key != key {
-				returnCell(key: key!)
+				
+			}  else  {
+				return
 			}
 			
+			cells[key!]?.backgroundColor = UIColor.black
 			print(key!)
 			
 			
@@ -140,7 +142,7 @@ class ViewController: UIViewController {
 		zoomcell = cells[key]
 		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
 			self.zoomcell?.layer.transform = CATransform3DIdentity
-			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.1, 1.1, 1.1)
+			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.15, 1.15, 1.15)
 		}, completion: nil)
 		
 		return zoomcell

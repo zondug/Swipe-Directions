@@ -27,7 +27,29 @@ class ViewController: UIViewController {
 	var firstLocation: CGPoint?
 	var secondLocation: CGPoint?
 	
-	var key: String?
+	enum targetcell: String {
+		case center = "2|2"
+		case north = "2|1"
+		case northeast = "3|1"
+		case east = "3|2"
+		case southeast = "3|3"
+		case south = "2|3"
+		case southwest = "1|3"
+		case west = "1|2"
+		case northwest = "1|1"
+	}
+	
+	var _key: String = targetcell.center.rawValue
+	var key: String? {
+		get {
+			returnCell(key: _key)
+			return _key
+		}
+		set(newVal) {
+			_key = newVal!
+			zoomedCell(key: _key)
+		}
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -88,48 +110,38 @@ class ViewController: UIViewController {
 			
 			if distance < 50 {
 
-				key = "2|2" // center
+				key = targetcell.center.rawValue
 				
 			} else if 50 < distance && distance < 150 {
 
 				switch angle {
 				case 22.5 ..< 67.5:
-					key = "3|3"
-					zoomedCell(key: key!)
+					key = targetcell.southeast.rawValue
 				case 67.5 ..< 112.5:
-					key = "2|3"
-					zoomedCell(key: key!)
+					key = targetcell.south.rawValue
 				case 112.5 ..< 157.5:
-					key = "1|3"
-					zoomedCell(key: key!)
+					key = targetcell.southwest.rawValue
 				case 157.5 ..< 202.5:
-					key = "1|2"
-					zoomedCell(key: key!)
+					key = targetcell.west.rawValue
 				case 202.5 ..< 237.5:
-					key = "1|1"
-					zoomedCell(key: key!)
+					key = targetcell.northwest.rawValue
 				case 237.5 ..< 292.5:
-					key = "2|1" // north
-					zoomedCell(key: key!)
+					key = targetcell.north.rawValue
 				case 292.5 ..< 337.5:
-					key = "3|1" // northeast
-					zoomedCell(key: key!)
+					key = targetcell.northeast.rawValue
 				case 337.5 ..< 360, 0 ..< 22.5:
-					key = "3|2"
-					zoomedCell(key: key!)
+					key = targetcell.east.rawValue
 				default: break
 				}
 				
 			}  else  {
 				return
 			}
-			
-			cells[key!]?.backgroundColor = UIColor.black
-			print(key!)
-			
+
+//			cells[key!]?.backgroundColor = UIColor.black
+//			print(key!)
 			
 		case .ended:
-			zoomedCell(key: key!)
 			return
 			
 		default:

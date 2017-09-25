@@ -39,16 +39,16 @@ class ViewController: UIViewController {
 //	key에 if를 넣어서 값이 변하는 걸 추적: if _key != key
 //	값이 안 변하면 그대로 두고, 변할 때 transform을 하면 됨
 
-
-	var _key: String = targetcell.center.rawValue
-	var key: String? {
-		get {
-			return _key
-		}
-		set(newVal) {
-			returnCell(key: key!)
-			_key = newVal!
-			zoomedCell(key: _key)
+//	willSet은 key가 newValue로 바뀔 예정, didSet은 oldValue가 key로 바뀐 상태
+	
+	var key: String? = targetcell.center.rawValue {
+		willSet {
+			if key != newValue {
+				returnCell(key: key!)
+				zoomedCell(key: newValue!)
+			} else if key == newValue {
+				return
+			}
 		}
 	}
 	
@@ -61,8 +61,6 @@ class ViewController: UIViewController {
 		for rows in 0...(noOfCells-1) {
 			for cols in 0...(noOfCells-1) {
 				
-//				uiview 라운드 처리
-
 				let cellView = UIView()
 				
 				cellView.frame = CGRect(x: centering + (rows * cellsize) + (spacing * rows), y: 100 + (cols * cellsize) + (spacing * cols), width: cellsize, height: cellsize)
@@ -76,6 +74,9 @@ class ViewController: UIViewController {
 				
 				cellView.layer.borderWidth = 2
 				cellView.layer.borderColor = UIColor.gray.cgColor
+				cellView.layer.cornerRadius = 8;
+				cellView.layer.masksToBounds = true;
+
 				cellView.bringSubview(toFront: textlabel)
 				view.addSubview(cellView)
 				
@@ -90,6 +91,9 @@ class ViewController: UIViewController {
 	func swipes(swiped: UIPanGestureRecognizer) {
 
 		let dragged = swiped.translation(in: view)
+		let dotsize = CGSize(width: 5, height: 5)
+		let firstdot = UIView()
+		let seconddot = UIView()
 		
 		var angle =  Double(atan2f(Float(dragged.y), Float(dragged.x))) * (360 / (2 * Double.pi))
 		
@@ -106,10 +110,19 @@ class ViewController: UIViewController {
 		switch swiped.state {
 		case .began:
 			firstLocation = swiped.location(in: view)
-			key = targetcell.center.rawValue
+			firstdot.frame = CGRect(origin: firstLocation!, size: dotsize)
+			firstdot.layer.cornerRadius = 25
+			firstdot.backgroundColor = .red
+			view.addSubview(firstdot)
+//			zoomedCell(key: targetcell.center.rawValue)
 			
 		case .changed:
 			secondLocation = swiped.location(in: view)
+			seconddot.frame = CGRect(origin: secondLocation!, size: dotsize)
+			seconddot.layer.cornerRadius = 25
+			seconddot.backgroundColor = .red
+			view.addSubview(seconddot)
+			setNeedsFocusUpdate()
 			
 			let dx = (secondLocation?.x)! - (firstLocation?.x)!
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
@@ -120,6 +133,7 @@ class ViewController: UIViewController {
 			if distance < defaultDistance {
 
 				key = targetcell.center.rawValue
+				zoomedCell(key: key!)
 				
 			} else if defaultDistance < distance && distance < maximumDistance {
 
@@ -151,6 +165,9 @@ class ViewController: UIViewController {
 //			print(distance, angle)
 			
 		case .ended:
+			returnCell(key: key!)
+			firstdot.removeFromSuperview()
+			seconddot.removeFromSuperview()
 //			excuteCellCard()
 			return
 			
@@ -163,8 +180,7 @@ class ViewController: UIViewController {
 		
 		zoomcell = cells[key]
 		
-		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-			self.zoomcell?.layer.transform = CATransform3DIdentity
+		UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
 			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.2, 1.2, 1.2)
 		}, completion: nil)
 		
@@ -175,8 +191,8 @@ class ViewController: UIViewController {
 
 		zoomcell = cells[key]
 
-		UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
-			self.zoomcell?.layer.transform = CATransform3DIdentity
+		UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut, animations: {
+			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.0, 1.0, 1.0)
 		}, completion: { (_) in})
 
 		return zoomcell

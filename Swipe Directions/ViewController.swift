@@ -36,9 +36,6 @@ class ViewController: UIViewController {
 		case northwest = "1|1"
 	}
 	
-//	key에 if를 넣어서 값이 변하는 걸 추적: if _key != key
-//	값이 안 변하면 그대로 두고, 변할 때 transform을 하면 됨
-
 //	willSet은 key가 newValue로 바뀔 예정, didSet은 oldValue가 key로 바뀐 상태
 	
 	var key: String? = targetcell.center.rawValue {
@@ -91,7 +88,7 @@ class ViewController: UIViewController {
 	func swipes(swiped: UIPanGestureRecognizer) {
 
 		let dragged = swiped.translation(in: view)
-		let dotsize = CGSize(width: 5, height: 5)
+		let dotsize = CGSize(width: 10, height: 10)
 		let firstdot = UIView()
 		let seconddot = UIView()
 		
@@ -105,16 +102,14 @@ class ViewController: UIViewController {
 		let defaultDistance: CGFloat = 20.0
 		let maximumDistance: CGFloat = 150
 		
-//		first position 하고 second position 에 circle 표시: touched position 추적
-		
 		switch swiped.state {
 		case .began:
 			firstLocation = swiped.location(in: view)
+//			print("first touched")
 			firstdot.frame = CGRect(origin: firstLocation!, size: dotsize)
 			firstdot.layer.cornerRadius = 25
 			firstdot.backgroundColor = .red
 			view.addSubview(firstdot)
-//			zoomedCell(key: targetcell.center.rawValue)
 			
 		case .changed:
 			secondLocation = swiped.location(in: view)
@@ -122,7 +117,6 @@ class ViewController: UIViewController {
 			seconddot.layer.cornerRadius = 25
 			seconddot.backgroundColor = .red
 			view.addSubview(seconddot)
-			setNeedsFocusUpdate()
 			
 			let dx = (secondLocation?.x)! - (firstLocation?.x)!
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
@@ -160,20 +154,19 @@ class ViewController: UIViewController {
 			}  else  {
 				return
 			}
-
-//			cells[key!]?.backgroundColor = UIColor.black
-//			print(distance, angle)
 			
 		case .ended:
+//			print("released")
 			returnCell(key: key!)
-			firstdot.removeFromSuperview()
-			seconddot.removeFromSuperview()
 //			excuteCellCard()
+			
 			return
 			
 		default:
 			break
 		}
+		
+
 	}
 	
 	func zoomedCell(key: String) -> UIView {

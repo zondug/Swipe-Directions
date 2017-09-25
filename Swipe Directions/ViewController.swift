@@ -36,6 +36,10 @@ class ViewController: UIViewController {
 		case northwest = "1|1"
 	}
 	
+//	key에 if를 넣어서 값이 변하는 걸 추적: if _key != key
+//	값이 안 변하면 그대로 두고, 변할 때 transform을 하면 됨
+
+
 	var _key: String = targetcell.center.rawValue
 	var key: String? {
 		get {
@@ -57,6 +61,8 @@ class ViewController: UIViewController {
 		for rows in 0...(noOfCells-1) {
 			for cols in 0...(noOfCells-1) {
 				
+//				uiview 라운드 처리
+
 				let cellView = UIView()
 				
 				cellView.frame = CGRect(x: centering + (rows * cellsize) + (spacing * rows), y: 100 + (cols * cellsize) + (spacing * cols), width: cellsize, height: cellsize)
@@ -95,6 +101,8 @@ class ViewController: UIViewController {
 		let defaultDistance: CGFloat = 20.0
 		let maximumDistance: CGFloat = 150
 		
+//		first position 하고 second position 에 circle 표시: touched position 추적
+		
 		switch swiped.state {
 		case .began:
 			firstLocation = swiped.location(in: view)
@@ -107,6 +115,8 @@ class ViewController: UIViewController {
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
 			distance = sqrt(dx*dx + dy*dy)
 			
+			
+//			거리에 따라 두 칸 이동 처리
 			if distance < defaultDistance {
 
 				key = targetcell.center.rawValue

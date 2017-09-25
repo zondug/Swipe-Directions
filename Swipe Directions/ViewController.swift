@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Swift Directions
+//  Swipe Directions
 //
 //  Created by Zondug Kim on 2017. 9. 18..
 //  Copyright © 2017년 Zondug Kim. All rights reserved.
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
 		}
 		
 		var distance: CGFloat = 0.0
-		let defaultDistance: CGFloat = 20.0
+		let defaultDistance: CGFloat = 30.0
 		let maximumDistance: CGFloat = 150
 		
 		switch swiped.state {
@@ -165,8 +165,6 @@ class ViewController: UIViewController {
 		default:
 			break
 		}
-		
-
 	}
 	
 	func zoomedCell(key: String) -> UIView {

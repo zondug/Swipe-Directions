@@ -41,8 +41,8 @@ class ViewController: UIViewController {
 	var key: String? = targetcell.center.rawValue {
 		willSet {
 			if key != newValue {
-				returnCell(key: key!)
-				zoomedCell(key: newValue!)
+				zoomEnds(key: key!)
+				zoomCell(key: newValue!)
 			} else if key == newValue {
 				return
 			}
@@ -85,12 +85,10 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
+	
 	func swipes(swiped: UIPanGestureRecognizer) {
 
-		let dragged = swiped.translation(in: view)
-		let dotsize = CGSize(width: 10, height: 10)
-		let firstdot = UIView()
-		let seconddot = UIView()
+		let dragged = swiped.translation(in: self.view)
 		
 		var angle =  Double(atan2f(Float(dragged.y), Float(dragged.x))) * (360 / (2 * Double.pi))
 		
@@ -101,22 +99,16 @@ class ViewController: UIViewController {
 		var distance: CGFloat = 0.0
 		let defaultDistance: CGFloat = 30.0
 		let maximumDistance: CGFloat = 150
-		
+
 		switch swiped.state {
+			
 		case .began:
 			firstLocation = swiped.location(in: view)
+			
 //			print("first touched")
-			firstdot.frame = CGRect(origin: firstLocation!, size: dotsize)
-			firstdot.layer.cornerRadius = 25
-			firstdot.backgroundColor = .red
-			view.addSubview(firstdot)
 			
 		case .changed:
 			secondLocation = swiped.location(in: view)
-			seconddot.frame = CGRect(origin: secondLocation!, size: dotsize)
-			seconddot.layer.cornerRadius = 25
-			seconddot.backgroundColor = .red
-			view.addSubview(seconddot)
 			
 			let dx = (secondLocation?.x)! - (firstLocation?.x)!
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
@@ -127,7 +119,7 @@ class ViewController: UIViewController {
 			if distance < defaultDistance {
 
 				key = targetcell.center.rawValue
-				zoomedCell(key: key!)
+				zoomCell(key: key!)
 				
 			} else if defaultDistance < distance && distance < maximumDistance {
 
@@ -157,17 +149,17 @@ class ViewController: UIViewController {
 			
 		case .ended:
 //			print("released")
-			returnCell(key: key!)
+			zoomEnds(key: key!)
 //			excuteCellCard()
-			
 			return
 			
 		default:
+
 			break
 		}
 	}
 	
-	func zoomedCell(key: String) -> UIView {
+	func zoomCell(key: String) -> UIView {
 		
 		zoomcell = cells[key]
 		
@@ -178,7 +170,7 @@ class ViewController: UIViewController {
 		return zoomcell
 	}
 	
-	func returnCell(key: String) -> UIView {
+	func zoomEnds(key: String) -> UIView {
 
 		zoomcell = cells[key]
 

@@ -13,7 +13,6 @@ import UIKit
 class ViewController: UIViewController {
 	
 	var cells = [String: UIView]()
-	var cellview: UIView!
 	var textlabel: UILabel!
 	var zoomcell: UIView!
 	
@@ -49,18 +48,21 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	override func viewDidLoad() {
+	override public func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+		
 		
 		let centering: Int = Int(view.frame.width)/2 - (noOfCells * cellsize + (spacing * 4))/2
 		
 		for rows in 0...(noOfCells-1) {
 			for cols in 0...(noOfCells-1) {
 				
+				let back = UIView()
 				let cellView = UIView()
 				
-				cellView.frame = CGRect(x: centering + (rows * cellsize) + (spacing * rows), y: 100 + (cols * cellsize) + (spacing * cols), width: cellsize, height: cellsize)
+				back.frame = CGRect(x: centering + (rows * cellsize) + (spacing * rows), y: 100 + (cols * cellsize) + (spacing * cols), width: cellsize, height: cellsize)
+				cellView.frame = back.bounds
 				cellView.backgroundColor = randomColor()
 				
 				textlabel = UILabel(frame: cellView.bounds)
@@ -73,18 +75,21 @@ class ViewController: UIViewController {
 				cellView.layer.borderColor = UIColor.gray.cgColor
 				cellView.layer.cornerRadius = 8;
 				cellView.layer.masksToBounds = true;
-
+				
 				cellView.bringSubview(toFront: textlabel)
-				view.addSubview(cellView)
+				back.addSubview(cellView)
+				view.addSubview(back)
 				
 				let key = "\(rows)|\(cols)"
 				cells[key] = cellView
 			}
 		}
-		
 		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
+	public func cascade() {
+		
+	}
 	
 	func swipes(swiped: UIPanGestureRecognizer) {
 
@@ -150,7 +155,7 @@ class ViewController: UIViewController {
 		case .ended:
 //			print("released")
 			zoomEnds(key: key!)
-//			excuteCellCard()
+			reverseCell(key: key!)
 			return
 			
 		default:
@@ -180,6 +185,30 @@ class ViewController: UIViewController {
 
 		return zoomcell
 	}
+	
+//	카드를 뒤집으러면, 각 셀에 상위 뷰를 하나 만들어서 뒤집어야 함
+	
+	func reverseCell(key: String) -> UIView {
+		
+		let backCell = cells[key]
+		let frontCell = UIView()
+		frontCell.frame = backCell!.frame
+		frontCell.backgroundColor = .gray
+		frontCell.layer.borderWidth = 2
+		frontCell.layer.borderColor = UIColor.gray.cgColor
+		frontCell.layer.cornerRadius = 8;
+		frontCell.layer.masksToBounds = true;
+		
+
+		UIView.transition(from: backCell!, to: frontCell, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromRight, completion: nil)
+		
+		return frontCell
+	}
+	
+	func excuteCellCard() {
+		
+	}
+
 	
 	func randomColor() -> UIColor {
 		let red = CGFloat(drand48())

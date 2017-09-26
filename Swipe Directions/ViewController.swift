@@ -71,10 +71,15 @@ class ViewController: UIViewController {
 				
 				cellView.addSubview(textlabel)
 				
-				cellView.layer.borderWidth = 2
+				cellView.layer.borderWidth = 1.0
 				cellView.layer.borderColor = UIColor.gray.cgColor
-				cellView.layer.cornerRadius = 8;
+				cellView.layer.cornerRadius = 8
 				cellView.layer.masksToBounds = true;
+
+				// shadows below
+				back.layer.shadowOffset = CGSize(width: 0, height: 0)
+				back.layer.shadowOpacity = 0.7
+				back.layer.shadowRadius = 2.0
 				
 				cellView.bringSubview(toFront: textlabel)
 				back.addSubview(cellView)
@@ -169,7 +174,7 @@ class ViewController: UIViewController {
 		zoomcell = cells[key]
 		
 		UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
-			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.2, 1.2, 1.2)
+			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.1, 1.1, 1.1)
 		}, completion: nil)
 		
 		return zoomcell
@@ -179,7 +184,7 @@ class ViewController: UIViewController {
 
 		zoomcell = cells[key]
 
-		UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut, animations: {
+		UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
 			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.0, 1.0, 1.0)
 		}, completion: { (_) in})
 
@@ -192,7 +197,9 @@ class ViewController: UIViewController {
 		
 		let backCell = cells[key]
 		let frontCell = UIView()
-		frontCell.frame = backCell!.frame
+		
+		frontCell.frame = backCell!.bounds
+		
 		frontCell.backgroundColor = .gray
 		frontCell.layer.borderWidth = 2
 		frontCell.layer.borderColor = UIColor.gray.cgColor

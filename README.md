@@ -1,4 +1,4 @@
 # Swipe-Directions
 
 This is small swiping based interface.
-With touch and moving points select each direction cells.
+With touching and moving points select cell each directions and reverse it.

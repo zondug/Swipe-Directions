@@ -102,7 +102,7 @@ class ViewController: UIViewController {
 		}
 		
 		var distance: CGFloat = 0.0
-		let defaultDistance: CGFloat = 30.0
+		let defaultDistance: CGFloat = 40.0
 		let maximumDistance: CGFloat = 150
 
 		switch swiped.state {
@@ -201,6 +201,8 @@ class ViewController: UIViewController {
 		
 
 		UIView.transition(from: backCell!, to: frontCell, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromRight, completion: nil)
+		
+		excuteCellCard()
 		
 		return frontCell
 	}

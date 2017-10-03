@@ -39,9 +39,13 @@ class ViewController: UIViewController {
 	
 	var key: String? = targetcell.center.rawValue {
 		willSet {
+			
+			// if key is changed
 			if key != newValue {
 				zoomEnds(key: key!)
 				zoomCell(key: newValue!)
+			
+			// if key is not changed, just do nothing
 			} else if key == newValue {
 				return
 			}
@@ -50,8 +54,6 @@ class ViewController: UIViewController {
 	
 	override public func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
-		
 		
 		let centering: Int = Int(view.frame.width)/2 - (noOfCells * cellsize + (spacing * 4))/2
 		
@@ -92,10 +94,6 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
-	public func cascade() {
-		
-	}
-	
 	func swipes(swiped: UIPanGestureRecognizer) {
 
 		let dragged = swiped.translation(in: self.view)
@@ -124,8 +122,8 @@ class ViewController: UIViewController {
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
 			distance = sqrt(dx*dx + dy*dy)
 			
-			
 //			거리에 따라 두 칸 이동 처리
+			
 			if distance < defaultDistance {
 
 				key = targetcell.center.rawValue
@@ -169,18 +167,16 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	func zoomCell(key: String) -> UIView {
+	func zoomCell(key: String) {
 		
 		zoomcell = cells[key]
 		
 		UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
 			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.1, 1.1, 1.1)
 		}, completion: nil)
-		
-		return zoomcell
 	}
 	
-	func zoomEnds(key: String) -> UIView {
+	func zoomEnds(key: String) {
 
 		zoomcell = cells[key]
 
@@ -188,12 +184,11 @@ class ViewController: UIViewController {
 			self.zoomcell?.layer.transform = CATransform3DMakeScale(1.0, 1.0, 1.0)
 		}, completion: { (_) in})
 
-		return zoomcell
 	}
 	
 //	카드를 뒤집으러면, 각 셀에 상위 뷰를 하나 만들어서 뒤집어야 함
 	
-	func reverseCell(key: String) -> UIView {
+	func reverseCell(key: String) {
 		
 		let backCell = cells[key]
 		let frontCell = UIView()
@@ -211,7 +206,6 @@ class ViewController: UIViewController {
 		
 		excuteCellCard()
 		
-		return frontCell
 	}
 	
 	func excuteCellCard() {

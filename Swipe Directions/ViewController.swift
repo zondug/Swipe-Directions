@@ -91,6 +91,7 @@ class ViewController: UIViewController {
 				cells[key] = cellView
 			}
 		}
+		
 		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
@@ -122,7 +123,7 @@ class ViewController: UIViewController {
 			let dy = (secondLocation?.y)! - (firstLocation?.y)!
 			distance = sqrt(dx*dx + dy*dy)
 			
-//			거리에 따라 두 칸 이동 처리
+//			거리에 따라 두 칸 이동 처리 
 			
 			if distance < defaultDistance {
 

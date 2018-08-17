@@ -197,17 +197,20 @@
 					EE3B00A01F7007CE00E1C191 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 3MD9UFCW64;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 					};
 					EE3B00B71F7007CE00E1C191 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 3MD9UFCW64;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EE3B00A01F7007CE00E1C191;
 					};
 					EE3B00C21F7007CE00E1C191 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 3MD9UFCW64;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EE3B00A01F7007CE00E1C191;
 					};
@@ -426,7 +429,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "works.nairrti.Swipe-Directions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -439,7 +443,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "works.nairrti.Swipe-Directions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -453,7 +458,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "works.nairrti.Swipe-DirectionsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swipe Directions.app/Swipe Directions";
 			};
 			name = Debug;
@@ -468,7 +474,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "works.nairrti.Swipe-DirectionsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Swipe Directions.app/Swipe Directions";
 			};
 			name = Release;
@@ -482,7 +489,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "works.nairrti.Swipe-DirectionsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = "Swipe Directions";
 			};
 			name = Debug;
@@ -496,7 +504,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "works.nairrti.Swipe-DirectionsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = "Swipe Directions";
 			};
 			name = Release;
@@ -520,6 +529,7 @@
 				EE3B00CE1F7007CE00E1C191 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EE3B00CF1F7007CE00E1C191 /* Build configuration list for PBXNativeTarget "Swipe DirectionsTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +538,7 @@
 				EE3B00D11F7007CE00E1C191 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EE3B00D21F7007CE00E1C191 /* Build configuration list for PBXNativeTarget "Swipe DirectionsUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +547,7 @@
 				EE3B00D41F7007CE00E1C191 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

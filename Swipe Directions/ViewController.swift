@@ -71,7 +71,7 @@ class ViewController: UIViewController {
 				textlabel.textAlignment = .center
 				textlabel.text = "\(rows, cols)"
 				
-				cellView.addSubview(textlabel)
+//                cellView.addSubview(textlabel)
 				
 				cellView.layer.borderWidth = 1.0
 				cellView.layer.borderColor = UIColor.gray.cgColor
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
 				back.layer.shadowOpacity = 0.7
 				back.layer.shadowRadius = 2.0
 				
-				cellView.bringSubview(toFront: textlabel)
+//                cellView.bringSubview(toFront: textlabel)
 				back.addSubview(cellView)
 				view.addSubview(back)
 				
@@ -95,7 +95,7 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(swipes)))
 	}
 	
-	func swipes(swiped: UIPanGestureRecognizer) {
+	@objc func swipes(swiped: UIPanGestureRecognizer) {
 
 		let dragged = swiped.translation(in: self.view)
 		
